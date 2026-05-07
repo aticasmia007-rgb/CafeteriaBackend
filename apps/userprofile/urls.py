@@ -14,13 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.main), #GET lista todos los alergenos
-    # path('create/', views.create_allergen), # POST Crear un alérgeno 
-    # path('<int:id>/', views.update_allergen), # PATCH Modificar un alérgeno 
-    # path('<int:id>/delete/', views.delete_allergen), # DELETE Eliminar un alérgeno 
-]
+    path('', views.probando),
+    # path('me/', views.my_profile), # GET: Obtener perfil / PATCH: Actualizar nombre o avatar
+    # path('me/password/', views.change_password), # PATCH: Cambiar contraseña (in-house) 
+    # path('me/deactivate/', views.deactivate_account), # PATCH: Desactivar cuenta propia 
+    # path('email-otp/', views.send_otp), # GET: Envío de OTP para verificar email 
+    # path('email-verification/', views.verify_email), # POST: Verificación de email con OTP 
+    # path('admin/users/', views.list_users), # GET: Listar y filtrar usuarios (Admin) 
+    # path('admin/users/<str:user_id>/role/', views.change_user_role), # PATCH: Cambiar rol de usuario 
+    ]

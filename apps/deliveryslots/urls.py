@@ -14,20 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/allergens', include('apps.allergens.urls')), 
-    path('api/userauth', include('apps.userauth.urls')), 
-    path('api/categories', include('apps.categories.urls')), 
-    path('api/deliveryslots', include('apps.deliveryslots.urls')), 
-    path('api/inventory', include('apps.inventory.urls')), 
-    path('api/orders', include('apps.orders.urls')), 
-    path('api/payments', include('apps.payments.urls')), 
-    path('api/products', include('apps.products.urls')), 
-    path('api/userprofile', include('apps.userprofile.urls'))
+    #path('available/', views.available_slots), # GET: Slots con capacidad para una fecha [cite: 514]
+    path('', views.slot_template), # GET: Plantilla semanal completa de slots [cite: 517]
+    # path('create/', views.create_slot), # POST: Añadir franja horaria a la plantilla [cite: 519]
+    # path('<int:id>/', views.update_slot), # PATCH: Actualizar capacidad o estado [cite: 522]
+    # path('<int:id>/delete/', views.delete_slot), # DELETE: Eliminar slot de la plantilla [cite: 525]
+    # path('<int:id>/orders/', views.slot_orders), # GET: Pedidos asignados a un slot y fecha [cite: 527]
 
-]
+   ]

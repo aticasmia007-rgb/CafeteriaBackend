@@ -15,19 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/allergens', include('apps.allergens.urls')), 
-    path('api/userauth', include('apps.userauth.urls')), 
-    path('api/categories', include('apps.categories.urls')), 
-    path('api/deliveryslots', include('apps.deliveryslots.urls')), 
-    path('api/inventory', include('apps.inventory.urls')), 
-    path('api/orders', include('apps.orders.urls')), 
-    path('api/payments', include('apps.payments.urls')), 
-    path('api/products', include('apps.products.urls')), 
-    path('api/userprofile', include('apps.userprofile.urls'))
-
-]
+    path('', views.list_categories), # GET: Obtener listado de categorías activas 
+    # path('<int:id>/', views.category_detail), # GET: Detalle de una categoría concreta 
+    # path('create/', views.create_category), # POST: Crear nueva categoría (Admin) 
+    # path('<int:id>/update/', views.update_category), # PATCH: Modificar categoría 
+    # path('<int:id>/delete/', views.delete_category), # DELETE: Eliminar categoría 
+    ]
