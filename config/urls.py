@@ -20,14 +20,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/allergens', include('apps.allergens.urls')), 
-    path('api/userauth', include('apps.userauth.urls')), 
-    path('api/categories', include('apps.categories.urls')), 
-    path('api/deliveryslots', include('apps.deliveryslots.urls')), 
-    path('api/inventory', include('apps.inventory.urls')), 
-    path('api/orders', include('apps.orders.urls')), 
-    path('api/payments', include('apps.payments.urls')), 
-    path('api/products', include('apps.products.urls')), 
-    path('api/userprofile', include('apps.userprofile.urls'))
-
+    path('api/allergens/', include('apps.allergens.urls')),
+    path('api/userauth/', include('apps.userauth.urls')),
+    path('api/categories/', include('apps.categories.urls')),
+    path('api/deliveryslots/', include('apps.deliveryslots.urls')),
+    path('api/inventory/', include('apps.inventory.urls')),
+    path('api/orders/', include('apps.orders.urls')),
+    path('api/payments/', include('apps.payments.urls')),
+    path('api/products/', include('apps.products.urls')),
+    path('api/userprofile/', include('apps.userprofile.urls')),
 ]
