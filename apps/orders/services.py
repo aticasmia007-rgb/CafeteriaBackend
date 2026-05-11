@@ -16,6 +16,19 @@ def generate_pickup_code():
             return code
 
 
+def _generate_payment_provider_id() -> str:
+    from django.db import transaction
+    with transaction.atomic():
+        existing = (
+            Order.objects
+            .filter(payment_provider_id__regex=r'^\d+$')
+            .select_for_update()
+            .values_list('payment_provider_id', flat=True)
+        )
+        max_num = max((int(r) for r in existing), default=0)
+        return str(max_num + 1).zfill(4)
+
+
 def create_order(client, slot, items_data):
     total = Decimal('0')
     resolved = []
@@ -25,7 +38,12 @@ def create_order(client, slot, items_data):
         total += unit_price * item['quantity']
         resolved.append((product, item['quantity'], unit_price))
 
-    order = Order.objects.create(client=client, slot=slot, total=total)
+    order = Order.objects.create(
+        client=client,
+        slot=slot,
+        total=total,
+        payment_provider_id=_generate_payment_provider_id(),
+    )
     for product, quantity, unit_price in resolved:
         OrderItem.objects.create(
             order=order,

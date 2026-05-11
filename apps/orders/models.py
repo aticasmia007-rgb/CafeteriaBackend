@@ -21,6 +21,7 @@ class Order(models.Model):
     }
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    payment_provider_id = models.CharField(max_length=12, unique=True, blank=True, default='')
     client = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
