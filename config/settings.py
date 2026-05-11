@@ -40,9 +40,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'config.apps.MongoAdminConfig',
+    'config.apps.MongoAuthConfig',
+    'config.apps.MongoContentTypesConfig',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -97,10 +97,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django_mongodb_backend',
+        'HOST': 'mongodb://alumno:password123@localhost:27017/',
+        'NAME': 'cafeteria_db',
     }
 }
+
+DEFAULT_AUTO_FIELD = 'django_mongodb_backend.fields.ObjectIdAutoField'
+
+MIGRATION_MODULES = {
+    'admin': 'mongo_migrations.admin',
+    'auth': 'mongo_migrations.auth',
+    'contenttypes': 'mongo_migrations.contenttypes',
+}
+
+SILENCED_SYSTEM_CHECKS = [
+    'mongodb.fields.auto.E001',
+]
 
 
 # Password validation
