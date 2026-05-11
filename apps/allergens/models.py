@@ -1,8 +1,10 @@
+import uuid
+
 from django.db import models
 
 
 class Allergen(models.Model):
-    allergen_id = models.AutoField(primary_key=True)
+    allergen_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     icon = models.URLField(blank=True, default='')
 

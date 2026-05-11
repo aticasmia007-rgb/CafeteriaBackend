@@ -8,12 +8,12 @@ from .models import Product
 
 
 class CategoryNestedSerializer(serializers.Serializer):
-    category_id = serializers.IntegerField(read_only=True)
+    category_id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
 
 
 class AllergenNestedSerializer(serializers.Serializer):
-    allergen_id = serializers.IntegerField(read_only=True)
+    allergen_id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
     icon = serializers.CharField(read_only=True)
 
