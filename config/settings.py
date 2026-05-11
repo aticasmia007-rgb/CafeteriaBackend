@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'config.apps.MongoContentTypesConfig',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
