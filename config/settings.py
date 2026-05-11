@@ -12,9 +12,17 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    DEBUG=(bool, False)  # Set default casting
+)
+
+environ.Env.read_env(BASE_DIR / '.env')  # Carga variables desde .env
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -154,4 +162,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'cafeteria@instituto.es'
 
 # Set via environment variable in production
-GOOGLE_CLIENT_ID = ''
+GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET') 

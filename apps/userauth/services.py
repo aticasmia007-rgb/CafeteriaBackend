@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.utils import timezone
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+import requests
 
 
 OTP_EXPIRY_SECONDS = 10 * 60  # 10 minutes
@@ -43,14 +44,30 @@ def verify_otp(user, code, mark_email_verified=True):
     return True
 
 
-def validate_google_token(token_string):
+def validate_google_token(code):
     """Validates a Google ID token. Returns payload dict or raises ValueError."""
     try:
+        print('Google token response:', settings.GOOGLE_CLIENT_ID, code)  # Debug log
+        token_response = requests.post("https://oauth2.googleapis.com/token", data={
+            "code": code,
+            "client_id": settings.GOOGLE_CLIENT_ID,
+            "client_secret": settings.GOOGLE_CLIENT_SECRET,
+            "redirect_uri": "postmessage",  # Importante para popup
+            "grant_type": "authorization_code",
+        })
+
+        tokens = token_response.json()
+        id_token_jwt = tokens["id_token"]  
+        
+        
         payload = id_token.verify_oauth2_token(
-            token_string,
+            id_token_jwt,
             google_requests.Request(),
             settings.GOOGLE_CLIENT_ID,
         )
+
+        print('Google token payload:', payload)  # Debug log
         return payload
     except Exception as exc:
+        print('Google token validation error:', exc)  # Debug log
         raise ValueError('Token de Google inválido.') from exc
