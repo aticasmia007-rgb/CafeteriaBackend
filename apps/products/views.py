@@ -17,7 +17,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         return ProductReadSerializer
 
     def get_permissions(self):
-        if self.action in ('list', 'retrieve') or True:
+        if self.action in ('list', 'retrieve'):
             return [AllowAny()]
         elif self.action == 'create':
             return [IsAuthenticated(), IsAdmin()]
