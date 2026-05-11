@@ -1,8 +1,14 @@
+networks:
+    traefik_proxy_external:
+        external: true
+        name: "traefik_proxy_external"
 services:
   api:
     build: .
     restart: unless-stopped
     env_file: .env.prod
+    networks:
+      - traefik_proxy_external
     depends_on:
       - mongo
     labels:
@@ -15,6 +21,8 @@ services:
   mongo:
     image: mongo:8
     restart: unless-stopped
+    networks:
+      - traefik_proxy_external
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
