@@ -554,7 +554,7 @@ path('', views.main),                          # GET list
 
 | Field       | Type    | Notes         |
 |-------------|---------|---------------|
-| allergen_id | integer |               |
+| allergen_id | integer |  Autofield    |
 | name        | string  | e.g. "Gluten" |
 | icon        | string  | URL or base64 |
 

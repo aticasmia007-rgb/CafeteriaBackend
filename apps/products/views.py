@@ -31,10 +31,10 @@ class ProductViewSet(viewsets.ModelViewSet):
             qs = qs.filter(available=True)
         category = self.request.query_params.get('category')
         if category:
-            qs = qs.filter(category__icontains=category)
+            qs = qs.filter(category__id=category)
         allergen = self.request.query_params.get('allergen')
         if allergen:
-            qs = qs.filter(allergens__contains=allergen)
+            qs = qs.filter(allergens__id=allergen)
         search = self.request.query_params.get('search')
         if search:
             qs = qs.filter(name__icontains=search)
