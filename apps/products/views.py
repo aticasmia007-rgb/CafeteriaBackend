@@ -31,7 +31,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             qs = qs.filter(available=True)
         category = self.request.query_params.get('category')
         if category:
-            qs = qs.filter(category__id=category)
+            qs = qs.filter(category=category)
         allergen = self.request.query_params.get('allergen')
         if allergen:
             qs = qs.filter(allergens__id=allergen)
