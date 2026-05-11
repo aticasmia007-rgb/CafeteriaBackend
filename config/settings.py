@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -173,3 +175,6 @@ REDSYS_SECRET_KEY = ''                   # Clave SHA del portal Redsys
 REDSYS_WEBHOOK_URL = 'https://yourserver.com/api/payments/redsys/notification/'
 REDSYS_URL_OK = 'https://yourfrontend.com/payment/ok'
 REDSYS_URL_KO = 'https://yourfrontend.com/payment/ko'
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
