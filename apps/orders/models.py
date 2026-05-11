@@ -15,6 +15,7 @@ class Order(models.Model):
         CANCELLED = 'cancelled', 'Cancelled'
 
     VALID_TRANSITIONS = {
+        State.PENDING: {State.COLLECTED},
         State.PAID: {State.PREPARING, State.COLLECTED},
         State.PREPARING: {State.READY, State.COLLECTED},
         State.READY: {State.COLLECTED},

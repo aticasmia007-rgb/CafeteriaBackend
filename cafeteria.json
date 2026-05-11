@@ -1,0 +1,1299 @@
+{
+  "v": 6,
+  "name": "cafeteria",
+  "requests": [],
+  "auth": {
+    "authType": "none",
+    "authActive": true
+  },
+  "headers": [],
+  "_ref_id": "coll_mp19scxs_3d7d3dec-6b3c-4a26-99cd-12f82e006407",
+  "folders": [
+    {
+      "v": 6,
+      "name": "auth",
+      "requests": [
+        {
+          "v": "11",
+          "name": "Register",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/register/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "pw.test(\"Save tokens\", () => {\n  pw.env.set(\"access_token\", pw.response.body.access_token);\n  pw.env.set(\"refresh_token\", pw.response.body.refresh_token);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"user@example.com\",\n  \"name\": \"Jonathan\",\n  \"password\": \"securepass123\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Create User 2": {
+              "name": "Create User 2",
+              "originalRequest": {
+                "v": "3",
+                "name": "Register",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/userauth/register/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": ""
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\"user\":{\"user_id\":\"bac73565-851e-4159-baa8-0220d3b079c8\",\"name\":\"Jonathan\",\"email\":\"user@example2.com\",\"avatar\":\"\",\"auth_provider\":\"inhouse\",\"email_verified\":false,\"is_active\":true,\"role\":\"client\",\"created_at\":\"2026-05-11T15:18:34.055478Z\"}}"
+            },
+            "Duplicate user": {
+              "name": "Duplicate user",
+              "originalRequest": {
+                "v": "3",
+                "name": "Register",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/userauth/register/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": ""
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"06\",\"msg\":\"Los datos de entrada no son válidos.\",\"errors\":{\"email\":[\"Ya existe una cuenta con este email.\"]}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Login",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/login/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "pw.test(\"Save tokens\", () => {\n  pw.env.set(\"access_token\", pw.response.body.access_token);\n  pw.env.set(\"refresh_token\", pw.response.body.refresh_token);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"securepass123\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Logout",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/logout/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"refresh_token\": \"<<refresh_token>>\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Send Email OTP",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/email-otp/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"user@example.com\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Verify Email",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/email-verification/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"123456\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Password Recovery",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/password-recovery/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"user@example.com\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Password Recovery Confirm",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/password-recovery/confirm/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"123456\",\n  \"new_password\": \"newpass456\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Google Login",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/userauth/google/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"id_token\": \"<google-id-token>\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_mp1cgwtu_3de7c273-1705-4048-a9a0-aac25458c3c7",
+      "folders": []
+    },
+    {
+      "v": 6,
+      "name": "productos",
+      "requests": [
+        {
+          "v": "11",
+          "name": "List Products",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/products/",
+          "params": [
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "category",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "allergen",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "list products": {
+              "name": "list products",
+              "originalRequest": {
+                "v": "3",
+                "name": "List Products",
+                "method": "GET",
+                "endpoint": "http://localhost:8000/api/products/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"data\":[{\"id\":\"566fb844-5189-4e28-a90f-50233e8580ae\",\"name\":\"Té\",\"description\":\"Un tecito antes\",\"price\":\"3.13\",\"category\":[{\"category_id\":9,\"name\":\"Falla el false? Probando 4\"},{\"category_id\":8,\"name\":\"Probando...3\"}],\"allergens\":[{\"allergen_id\":1,\"name\":\"Cambiado\",\"icon\":\"\"}],\"image\":\"\",\"available\":true,\"stock\":0,\"prepare_required\":true},{\"id\":\"a3eb8c91-5e4f-4420-b763-82e58a65b1bd\",\"name\":\"Vuelve\",\"description\":\"Sal de mar para tomar\",\"price\":\"3.13\",\"category\":[],\"allergens\":[],\"image\":\"\",\"available\":true,\"stock\":0,\"prepare_required\":true}]}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Get Product",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/products/566fb844-5189-4e28-a90f-50233e8580ae/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "get one product": {
+              "name": "get one product",
+              "originalRequest": {
+                "v": "3",
+                "name": "Get Product",
+                "method": "GET",
+                "endpoint": "http://localhost:8000/api/products/566fb844-5189-4e28-a90f-50233e8580ae/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"data\":{\"id\":\"566fb844-5189-4e28-a90f-50233e8580ae\",\"name\":\"Té\",\"description\":\"Un tecito antes\",\"price\":\"3.13\",\"category\":[{\"category_id\":9,\"name\":\"Falla el false? Probando 4\"},{\"category_id\":8,\"name\":\"Probando...3\"}],\"allergens\":[{\"allergen_id\":1,\"name\":\"Cambiado\",\"icon\":\"\"}],\"image\":\"\",\"available\":true,\"stock\":0,\"prepare_required\":true}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Create Product",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/products/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Pizza\",\n  \"description\": \"italiana\",\n  \"price\": 50.5,\n  \"prepare_required\": true,\n  \"stock\": 40,\n  \"category\": [11],\n  \"allergens\": []\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Create product": {
+              "name": "Create product",
+              "originalRequest": {
+                "v": "3",
+                "name": "Create Product",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/products/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": ""
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"msg\":\"Producto creado correctamente\",\"data\":{\"id\":\"9d8761ea-360b-4b8d-b26a-82164f620e9b\"}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Update Product",
+          "method": "PATCH",
+          "endpoint": "http://localhost:8000/api/products/6153de5e-8f3a-4007-8587-6a0c0494e85c/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"stock\": 50\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "actualizar producto": {
+              "name": "actualizar producto",
+              "originalRequest": {
+                "v": "3",
+                "name": "Update Product",
+                "method": "PATCH",
+                "endpoint": "http://localhost:8000/api/products/6153de5e-8f3a-4007-8587-6a0c0494e85c/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": ""
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"msg\":\"Producto actualizado correctamente\",\"data\":{\"id\":\"6153de5e-8f3a-4007-8587-6a0c0494e85c\"}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Delete Product",
+          "method": "DELETE",
+          "endpoint": "http://localhost:8000/api/products/6153de5e-8f3a-4007-8587-6a0c0494e85c/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_mp19splm_b7e0bbec-de7e-4f6a-9fe1-ca7d33d4a3b7",
+      "folders": []
+    },
+    {
+      "v": 6,
+      "name": "categories",
+      "requests": [
+        {
+          "v": "11",
+          "name": "List Categories",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/categories/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Create Category",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/categories/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Bebidas\",\n  \"image\": \"\",\n  \"active\": true\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Create Category": {
+              "name": "Create Category",
+              "originalRequest": {
+                "v": "3",
+                "name": "Create Category",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/categories/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"name\": \"Bebidas\",\n  \"image\": \"\",\n  \"active\": true\n}"
+                },
+                "auth": {
+                  "authType": "bearer",
+                  "token": "<<access_token>>",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Date",
+                  "value": "Mon, 11 May 2026 19:04:02 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "WSGIServer/0.2 CPython/3.13.1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept"
+                },
+                {
+                  "key": "Allow",
+                  "value": "GET, POST, HEAD, OPTIONS"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "81"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"msg\":\"Categoría creada correctamente\",\"data\":{\"category_id\":11}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Update Category",
+          "method": "PATCH",
+          "endpoint": "http://localhost:8000/api/categories/1/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Bebidas calientes\",\n  \"active\": true\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Delete Category",
+          "method": "DELETE",
+          "endpoint": "http://localhost:8000/api/categories/1/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_categories_001",
+      "folders": []
+    },
+    {
+      "v": 6,
+      "name": "allergens",
+      "requests": [
+        {
+          "v": "11",
+          "name": "List Allergens",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/allergens/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Create Allergen",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/allergens/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Gluten\",\n  \"icon\": \"\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Update Allergen",
+          "method": "PATCH",
+          "endpoint": "http://localhost:8000/api/allergens/1/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Gluten actualizado\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Delete Allergen",
+          "method": "DELETE",
+          "endpoint": "http://localhost:8000/api/allergens/1/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_allergens_001",
+      "folders": []
+    },
+    {
+      "v": 6,
+      "name": "deliveryslots",
+      "requests": [
+        {
+          "v": "11",
+          "name": "Available Slots",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/deliveryslots/available/",
+          "params": [
+            {
+              "key": "date",
+              "value": "2026-05-11",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Available slots": {
+              "name": "Available slots",
+              "originalRequest": {
+                "v": "3",
+                "name": "Available Slots",
+                "method": "GET",
+                "endpoint": "http://localhost:8000/api/deliveryslots/available/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"data\":[{\"slot_id\":\"512a5e36-3a31-4417-b486-2acb5d7d5895\",\"label\":\"09:00–09:15\",\"capacity\":15,\"remaining\":15,\"date\":\"2026-05-11\",\"available\":true},{\"slot_id\":\"f839fc86-9ee9-4dea-b879-f76c9cd5a79c\",\"label\":\"10:00–10:59\",\"capacity\":15,\"remaining\":15,\"date\":\"2026-05-11\",\"available\":true}]}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Get Slot Template",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/deliveryslots/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Create Slot",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/deliveryslots/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"start_time\": \"10:00\",\n  \"end_time\": \"10:15\",\n  \"capacity\": 15\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "create delivery slot": {
+              "name": "create delivery slot",
+              "originalRequest": {
+                "v": "3",
+                "name": "Create Slot",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/deliveryslots/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": ""
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"msg\":\"Slot creado correctamente\",\"data\":{\"slot_id\":\"f839fc86-9ee9-4dea-b879-f76c9cd5a79c\"}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Update Slot",
+          "method": "PATCH",
+          "endpoint": "http://localhost:8000/api/deliveryslots/f839fc86-9ee9-4dea-b879-f76c9cd5a79c/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"capacity\": 10,\n  \"active\": false\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Delete Slot",
+          "method": "DELETE",
+          "endpoint": "http://localhost:8000/api/deliveryslots/f839fc86-9ee9-4dea-b879-f76c9cd5a79c/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Slot Orders",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/deliveryslots/f839fc86-9ee9-4dea-b879-f76c9cd5a79c/orders/",
+          "params": [
+            {
+              "key": "date",
+              "value": "2026-05-11",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_mp1as1sq_5dc78861-665d-40b2-a2d9-5df016f2c81a",
+      "folders": []
+    },
+    {
+      "v": 6,
+      "name": "orders",
+      "requests": [
+        {
+          "v": "11",
+          "name": "Create Order",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/orders/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"slot_id\": \"08daf782-7ea2-4d8e-b785-a75e888c53a2\",\n  \"items\": [\n    {\"product_id\": \"4be46600-b0a2-4cd8-bdd8-243630f2b3b0\", \"quantity\": 2}\n  ]\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Create Order": {
+              "name": "Create Order",
+              "originalRequest": {
+                "v": "3",
+                "name": "Create Order",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/orders/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": ""
+                },
+                "auth": {
+                  "authType": "bearer",
+                  "token": "<<access_token>>",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"data\":{\"id\":\"950dba62-26a7-4d29-b015-f97a5d3bee69\",\"state\":\"pending\",\"total\":\"81.00\",\"pickup_code\":\"\",\"slot\":{\"id\":\"f839fc86-9ee9-4dea-b879-f76c9cd5a79c\",\"label\":\"10:00–10:59\"},\"items\":[{\"id\":\"ebba6e2e-7b69-47ec-80d1-7dcebd001a62\",\"product_id\":\"6153de5e-8f3a-4007-8587-6a0c0494e85c\",\"product_name\":\"Pasta\",\"quantity\":2,\"unit_price\":\"40.50\"}],\"paid_at\":null,\"created_at\":\"2026-05-11T15:19:53.391847Z\"}}"
+            },
+            "Create Order 2": {
+              "name": "Create Order 2",
+              "originalRequest": {
+                "v": "3",
+                "name": "Create Order",
+                "method": "POST",
+                "endpoint": "http://localhost:8000/api/orders/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"slot_id\": \"08daf782-7ea2-4d8e-b785-a75e888c53a2\",\n  \"items\": [\n    {\"product_id\": \"4be46600-b0a2-4cd8-bdd8-243630f2b3b0\", \"quantity\": 2}\n  ]\n}"
+                },
+                "auth": {
+                  "authType": "bearer",
+                  "token": "<<access_token>>",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Date",
+                  "value": "Mon, 11 May 2026 19:04:56 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "WSGIServer/0.2 CPython/3.13.1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept"
+                },
+                {
+                  "key": "Allow",
+                  "value": "GET, POST, HEAD, OPTIONS"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "420"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"data\":{\"id\":\"ba5598d7-9b06-489d-a0cf-87ae26c03192\",\"state\":\"pending\",\"total\":\"101.00\",\"pickup_code\":\"\",\"slot\":{\"id\":\"08daf782-7ea2-4d8e-b785-a75e888c53a2\",\"label\":\"10:00–10:15\"},\"items\":[{\"id\":\"fc465813-42f7-4f65-b487-e0a061867a14\",\"product_id\":\"4be46600-b0a2-4cd8-bdd8-243630f2b3b0\",\"product_name\":\"Pizza\",\"quantity\":2,\"unit_price\":\"50.50\"}],\"paid_at\":null,\"created_at\":\"2026-05-11T19:04:56.819267Z\"}}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Get My Orders",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/orders/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get user Orders": {
+              "name": "Get user Orders",
+              "originalRequest": {
+                "v": "3",
+                "name": "Get My Orders",
+                "method": "GET",
+                "endpoint": "http://localhost:8000/api/orders/",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "bearer",
+                  "token": "<<access_token>>",
+                  "authActive": true
+                },
+                "requestVariables": []
+              },
+              "status": "OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"status\":\"00\",\"data\":[{\"id\":\"950dba62-26a7-4d29-b015-f97a5d3bee69\",\"state\":\"pending\",\"total\":\"81.00\",\"pickup_code\":\"\",\"slot\":{\"id\":\"f839fc86-9ee9-4dea-b879-f76c9cd5a79c\",\"label\":\"10:00–10:59\"},\"items\":[{\"id\":\"ebba6e2e-7b69-47ec-80d1-7dcebd001a62\",\"product_id\":\"6153de5e-8f3a-4007-8587-6a0c0494e85c\",\"product_name\":\"Pasta\",\"quantity\":2,\"unit_price\":\"40.50\"}],\"paid_at\":null,\"created_at\":\"2026-05-11T15:19:53.391847Z\"}]}"
+            }
+          }
+        },
+        {
+          "v": "11",
+          "name": "Get Order Detail",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/orders/950dba62-26a7-4d29-b015-f97a5d3bee69/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Update Order State",
+          "method": "PATCH",
+          "endpoint": "http://localhost:8000/api/orders/950dba62-26a7-4d29-b015-f97a5d3bee69/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"state\": \"preparing\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Get All Orders (staff)",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/orders/all/",
+          "params": [
+            {
+              "key": "state",
+              "value": "paid",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "slot_id",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_mp1atc4y_afd52321-7682-41ec-9d8c-0b174720e15b",
+      "folders": []
+    },
+    {
+      "v": 6,
+      "name": "payments",
+      "requests": [
+        {
+          "v": "11",
+          "name": "Iniciar Pago",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/payments/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"order_id\": \"ba5598d7-9b06-489d-a0cf-87ae26c03192\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Consultar Estado Pago",
+          "method": "GET",
+          "endpoint": "http://localhost:8000/api/payments/ba5598d7-9b06-489d-a0cf-87ae26c03192/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<access_token>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "Redsys Webhook (simulado)",
+          "method": "POST",
+          "endpoint": "http://localhost:8000/api/payments/redsys/notification/",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "none",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"Ds_MerchantParameters\": \"<base64-params>\",\n  \"Ds_Signature\": \"<hmac-sha512-signature>\",\n  \"Ds_SignatureVersion\": \"HMAC_SHA512_V1\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_mp1kda7t_22d5ee10-f3da-4dd8-abf1-e9a4e5d01708",
+      "folders": []
+    }
+  ]
+}

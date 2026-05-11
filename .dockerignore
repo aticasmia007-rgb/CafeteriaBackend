@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.prod.example
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+db.sqlite3
+*.json
+!pyproject.toml
+README.md

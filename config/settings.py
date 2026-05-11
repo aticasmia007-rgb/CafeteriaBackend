@@ -182,9 +182,9 @@ GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
 
 # Redsys TPV Virtual
 REDSYS_ENV = 'test'                      # 'test' | 'prod'
-REDSYS_MERCHANT_CODE = ''                # Código de comercio
-REDSYS_TERMINAL = '001'                  # Número de terminal
-REDSYS_SECRET_KEY = ''                   # Clave SHA del portal Redsys
+REDSYS_MERCHANT_CODE = '263100000'                # Código de comercio
+REDSYS_TERMINAL = '97'                  # Número de terminal
+REDSYS_SECRET_KEY = 'sq7HjrUOBfKmC576' #'sq7HjrUOBfKmC576ILgskD5srU870gJ7'  sq7HjrUOBfKmC576
 REDSYS_WEBHOOK_URL = 'https://yourserver.com/api/payments/redsys/notification/'
 REDSYS_URL_OK = 'https://yourfrontend.com/payment/ok'
 REDSYS_URL_KO = 'https://yourfrontend.com/payment/ko'

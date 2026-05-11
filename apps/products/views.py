@@ -27,7 +27,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = Product.objects.all()
-        if self.action in ('list', 'retrieve'):
+        user = self.request.user
+        is_privileged = user.is_authenticated and user.role in ('staff', 'admin')
+        if self.action in ('list', 'retrieve') and not is_privileged:
             qs = qs.filter(available=True)
         category = self.request.query_params.get('category')
         if category:

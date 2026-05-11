@@ -148,11 +148,16 @@ class RedsysSignature:
 
 def build_payment_params(order) -> dict:
     from django.conf import settings
+    from apps.orders.services import _generate_payment_provider_id
+
+    if not order.payment_provider_id:
+        order.payment_provider_id = _generate_payment_provider_id()
+        order.save(update_fields=['payment_provider_id'])
 
     redsys = RedsysSignature(settings.REDSYS_SECRET_KEY)
 
     params = {
-        'DS_MERCHANT_AMOUNT': str(int(order.total * 100)),
+        'DS_MERCHANT_AMOUNT': str(int(order.total * 100)),  # Importe en céntimos
         'DS_MERCHANT_ORDER': order.payment_provider_id,
         'DS_MERCHANT_MERCHANTCODE': settings.REDSYS_MERCHANT_CODE,
         'DS_MERCHANT_TERMINAL': settings.REDSYS_TERMINAL,
@@ -162,6 +167,8 @@ def build_payment_params(order) -> dict:
         'DS_MERCHANT_URLOK': settings.REDSYS_URL_OK,
         'DS_MERCHANT_URLKO': settings.REDSYS_URL_KO,
     }
+
+    print("Payment params before signature:", params)
 
     merchant_parameters, signature = redsys.generate_signature(params)
 

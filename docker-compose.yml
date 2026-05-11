@@ -1,0 +1,26 @@
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    env_file: .env.prod
+    depends_on:
+      - mongo
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cafe-api.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.cafe-api.entrypoints=web
+      - traefik.http.services.cafe-api.loadbalancer.server.port=8000
+
+
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: cafeteria_db
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
