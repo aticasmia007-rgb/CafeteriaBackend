@@ -7,7 +7,7 @@ services:
       - mongo
     labels:
       - traefik.enable=true
-      - traefik.http.routers.cafe-api.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.cafe-api.rule=Host(`cafe-api.jcool-laboratory-00.click`)
       - traefik.http.routers.cafe-api.entrypoints=web
       - traefik.http.services.cafe-api.loadbalancer.server.port=8000
 
