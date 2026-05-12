@@ -38,7 +38,7 @@ services:
       - mongo_data:/data/db
     labels:
       - traefik.enable=true
-      - traefik.http.routers.cafe-api-db.rule=Host(`cafe-api.jcool-laboratory-00.click`) && PathPrefix(`/mongo`)
+      - traefik.http.routers.cafe-api-db.rule=Host(`cafe-db-api.jcool-laboratory-00.click`)
       - traefik.http.routers.cafe-api-db.entrypoints=web
       - traefik.http.services.cafe-api-db.loadbalancer.server.port=27017
 
