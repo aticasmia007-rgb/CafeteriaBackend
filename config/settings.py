@@ -184,13 +184,14 @@ GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
 
 # Redsys TPV Virtual
-REDSYS_ENV = 'test'                      # 'test' | 'prod'
-REDSYS_MERCHANT_CODE = '263100000'                # Código de comercio
-REDSYS_TERMINAL = '97'                  # Número de terminal
-REDSYS_SECRET_KEY = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7' #'sq7HjrUOBfKmC576ILgskD5srU870gJ7'  sq7HjrUOBfKmC576
-REDSYS_WEBHOOK_URL = 'https://yourserver.com/api/payments/redsys/notification/'
-REDSYS_URL_OK = 'https://yourfrontend.com/payment/ok'
-REDSYS_URL_KO = 'https://yourfrontend.com/payment/ko'
+REDSYS_ENV = env('REDSYS_ENV', default='test')                      # 'test' | 'prod'
+REDSYS_MERCHANT_CODE = env('REDSYS_MERCHANT_CODE', default='263100000')                # Código de comercio
+REDSYS_TERMINAL = env('REDSYS_TERMINAL', default='97')                # Número de terminal
+REDSYS_SECRET_KEY = env('REDSYS_SECRET_KEY', default='sq7HjrUOBfKmC576ILgskD5srU870gJ7') #'sq7HjrUOBfKmC576ILgskD5srU870gJ7'  sq7HjrUOBfKmC576
+REDSYS_WEBHOOK_URL = env('REDSYS_WEBHOOK_URL', default='https://cafeteria.jcool-laboratory-00.click/api/payments/webhook/')
+REDSYS_URL_OK = env('REDSYS_URL_OK', default='https://cafeteria.jcool-laboratory-00.click')
+REDSYS_URL_KO = env('REDSYS_URL_KO', default='https://cafeteria.jcool-laboratory-00.click')
+
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
