@@ -3,12 +3,12 @@ import hashlib
 import hmac
 import json
 
-from Crypto.Cipher import AES
+from Crypto.Cipher import DES3
 
 
 class RedsysSignature:
     """
-    Genera y valida firmas HMAC_SHA512_V1 para la integración
+    Genera y valida firmas HMAC_SHA256_V1 para la integración
     con Redsys TPV Virtual (integración formulario/redirect).
 
     Uso:
@@ -102,20 +102,18 @@ class RedsysSignature:
         """
         Genera la clave derivada específica para una operación.
 
-        Proceso según el manual de Redsys (HMAC SHA-512):
+        Proceso según el manual de Redsys (HMAC SHA-256):
         1. Decodificar la clave secreta de Base64
-        2. Recortar a 16 bytes (rellenar con ceros si es más corta)
-        3. Cifrar el número de pedido con AES-128 CBC (IV = 16 bytes a cero)
-        4. El resultado codificado en Base64 es la clave derivada
+        2. Cifrar el número de pedido con 3DES CBC (IV = 8 bytes a cero)
+        3. El resultado es la clave derivada
         """
         secret_decoded = base64.b64decode(self.secret_key)
-        key = secret_decoded[:16].ljust(16, b'\0')
-        iv = b'\0' * 16
-        cipher = AES.new(key, AES.MODE_CBC, iv)
+        iv = b'\0' * 8
+        cipher = DES3.new(secret_decoded, DES3.MODE_CBC, iv)
 
         order_bytes = order.encode('utf-8')
         padded_order = order_bytes.ljust(
-            ((len(order_bytes) // 16) + 1) * 16,
+            ((len(order_bytes) + 7) // 8) * 8,
             b'\0',
         )
 
@@ -123,15 +121,15 @@ class RedsysSignature:
 
     def _compute_hmac(self, merchant_parameters: str, derived_key: bytes) -> str:
         """
-        Calcula HMAC-SHA512 sobre Ds_MerchantParameters usando la clave
-        derivada y retorna el resultado codificado en Base64 URL safe.
+        Calcula HMAC-SHA256 sobre Ds_MerchantParameters usando la clave
+        derivada y retorna el resultado codificado en Base64.
         """
         mac = hmac.new(
             derived_key,
             merchant_parameters.encode('utf-8'),
-            hashlib.sha512,
+            hashlib.sha256,
         )
-        return base64.urlsafe_b64encode(mac.digest()).decode('utf-8')
+        return base64.b64encode(mac.digest()).decode('utf-8')
 
     @staticmethod
     def _encode_parameters(params: dict) -> str:
@@ -182,7 +180,7 @@ def build_payment_params(order) -> dict:
         'redsys_url': redsys_url,
         'Ds_MerchantParameters': merchant_parameters,
         'Ds_Signature': signature,
-        'Ds_SignatureVersion': 'HMAC_SHA512_V1',
+        'Ds_SignatureVersion': 'HMAC_SHA256_V1',
     }
 
 
