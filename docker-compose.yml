@@ -30,6 +30,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik_proxy_external
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
@@ -37,10 +39,7 @@ services:
     volumes:
       - mongo_data:/data/db
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.cafe-api-db.rule=Host(`cafe-db-api.jcool-laboratory-00.click`)
-      - traefik.http.routers.cafe-api-db.entrypoints=web
-      - traefik.http.services.cafe-api-db.loadbalancer.server.port=27017
+      - traefik.enable=false
 
 volumes:
   mongo_data:
