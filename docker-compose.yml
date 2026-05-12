@@ -15,7 +15,14 @@ services:
       - traefik.enable=true
       - traefik.http.routers.cafe-api.rule=Host(`cafe-api.jcool-laboratory-00.click`)
       - traefik.http.routers.cafe-api.entrypoints=web
+      - traefik.http.routers.cafe-api.middlewares=cafe-cors
       - traefik.http.services.cafe-api.loadbalancer.server.port=8000
+      # CORS middleware
+      - traefik.http.middlewares.cafe-cors.headers.accesscontrolalloworiginlist=*
+      - traefik.http.middlewares.cafe-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - traefik.http.middlewares.cafe-cors.headers.accesscontrolallowheaders=Content-Type,Authorization
+      - traefik.http.middlewares.cafe-cors.headers.accesscontrolmaxage=100
+      - traefik.http.middlewares.cafe-cors.headers.addvaryheader=true
 
 
   mongo:
