@@ -29,6 +29,11 @@ services:
       MONGO_INITDB_DATABASE: cafeteria_db
     volumes:
       - mongo_data:/data/db
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cafe-api.rule=Host(`cafe-api.jcool-laboratory-00.click`) && PathPrefix(`/mongo`)
+      - traefik.http.routers.cafe-api.entrypoints=web
+      - traefik.http.services.cafe-api.loadbalancer.server.port=27017
 
 volumes:
   mongo_data:
