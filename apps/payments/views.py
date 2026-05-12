@@ -31,6 +31,8 @@ class RedsysWebhookView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+
+        print("[PAYMENT] Received webhook with data:", request.data)
         merchant_params = request.data.get('Ds_MerchantParameters', '')
         signature = request.data.get('Ds_Signature', '')
         secret_key = __import__('django.conf', fromlist=['settings']).settings.REDSYS_SECRET_KEY
