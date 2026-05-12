@@ -17,16 +17,19 @@ def generate_pickup_code():
 
 
 def _generate_payment_provider_id() -> str:
-    from django.db import transaction
-    with transaction.atomic():
-        existing = (
-            Order.objects
-            .filter(payment_provider_id__regex=r'^\d+$')
-            .select_for_update()
-            .values_list('payment_provider_id', flat=True)
-        )
-        max_num = max((int(r) for r in existing), default=0)
-        return str(max_num + 1).zfill(4)
+    existing = (
+        Order.objects
+        .exclude(payment_provider_id='')
+        .values_list('payment_provider_id', flat=True)
+    )
+    nums = []
+    for r in existing:
+        try:
+            nums.append(int(r))
+        except (ValueError, TypeError):
+            pass
+    max_num = max(nums, default=0)
+    return str(max_num + 1).zfill(4)
 
 
 def create_order(client, slot, items_data):
