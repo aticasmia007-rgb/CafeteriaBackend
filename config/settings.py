@@ -94,10 +94,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+
+print("MONGODB_URI:", env('MONGODB_URI', default='mongodb://alumno:password123@localhost:27017/'))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_backend',
-        'HOST': env('MONGODB_URI', 'mongodb://alumno:password123@localhost:27017/'),
+        'HOST': env('MONGODB_URI', default='mongodb://alumno:password123@localhost:27017/'),
         'NAME': 'cafeteria_db',
     }
 }
