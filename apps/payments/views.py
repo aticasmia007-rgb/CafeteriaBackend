@@ -31,21 +31,44 @@ class RedsysWebhookView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        from django.conf import settings
 
-        print("[PAYMENT] Received webhook with data:", request.data)
-        merchant_params = request.data.get('Ds_MerchantParameters', '')
-        signature = request.data.get('Ds_Signature', '')
-        secret_key = __import__('django.conf', fromlist=['settings']).settings.REDSYS_SECRET_KEY
+        def _get(key):
+            val = request.data.get(key, '')
+            return val[0] if isinstance(val, list) else val
 
+        merchant_params = _get('Ds_MerchantParameters')
+        signature = _get('Ds_Signature')
+
+        print("[REDSYS] Raw body:", request.data)
+
+        # 1. Check required fields
         if not merchant_params or not signature:
+            print("[REDSYS] Missing params or signature")
             return Response({}, status=200)
 
-        redsys = RedsysSignature(secret_key)
-        if not redsys.validate_notification(merchant_params, signature):
+        # 2. Decode and log params (for debugging)
+        try:
+            import base64, json
+            decoded = json.loads(base64.b64decode(merchant_params).decode('utf-8'))
+            print("[REDSYS] Decoded params:", decoded)
+        except Exception as e:
+            print("[REDSYS] Failed to decode params:", e)
             return Response({}, status=200)
 
+        # 3. Validate signature
+        redsys = RedsysSignature(settings.REDSYS_SECRET_KEY)
+        valid = redsys.validate_notification(merchant_params, signature)
+        print("[REDSYS] Signature valid:", valid)
+
+        if not valid:
+            print("[REDSYS] Invalid signature, rejecting")
+            return Response({}, status=200)
+
+        # 4. Process the payment result
         process_webhook(merchant_params)
         return Response({}, status=200)
+
 
 
 class PaymentStatusView(APIView):

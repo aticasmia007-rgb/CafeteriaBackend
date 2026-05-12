@@ -56,23 +56,36 @@ class RedsysSignature:
         ds_merchant_parameters: str,
         ds_signature: str,
     ) -> bool:
-        """
-        Valida la firma recibida en el webhook de notificación de Redsys.
-        Debe llamarse siempre antes de procesar el resultado del pago.
-
-        Retorna True si la firma es válida, False si la notificación
-        debe ser rechazada.
-        """
         try:
+            from urllib.parse import unquote
+
+            # 1. Limpiar la firma recibida
+            ds_signature_clean = unquote(ds_signature).replace(' ', '+')
+
+            # 2. Extraer el order para derivar la clave
             decoded = self._decode_parameters(ds_merchant_parameters)
             order = decoded.get("Ds_Order", "")
 
+            print(f"[REDSYS] Order para derivar clave: '{order}'")
+
+            # 3. Derivar clave y calcular firma esperada
             derived_key = self._derive_key(order)
             expected_signature = self._compute_hmac(ds_merchant_parameters, derived_key)
 
-            return hmac.compare_digest(expected_signature, ds_signature)
+            print(f"[REDSYS] Firma esperada:  {expected_signature}")
+            print(f"[REDSYS] Firma recibida:  {ds_signature_clean}")
 
-        except Exception:
+            # 4. Comparar en ambos formatos (urlsafe y normal)
+            expected_urlsafe = expected_signature  # ya es urlsafe en _compute_hmac
+            expected_normal = expected_urlsafe.replace('-', '+').replace('_', '/')
+
+            return (
+                hmac.compare_digest(expected_urlsafe, ds_signature_clean)
+                or hmac.compare_digest(expected_normal, ds_signature_clean)
+            )
+
+        except Exception as e:
+            print(f"[REDSYS] Error en validación: {e}")
             return False
 
     def decode_parameters(self, ds_merchant_parameters: str) -> dict:
@@ -120,16 +133,12 @@ class RedsysSignature:
         return cipher.encrypt(padded_order)
 
     def _compute_hmac(self, merchant_parameters: str, derived_key: bytes) -> str:
-        """
-        Calcula HMAC-SHA256 sobre Ds_MerchantParameters usando la clave
-        derivada y retorna el resultado codificado en Base64.
-        """
         mac = hmac.new(
             derived_key,
             merchant_parameters.encode('utf-8'),
             hashlib.sha256,
         )
-        return base64.b64encode(mac.digest()).decode('utf-8')
+        return base64.urlsafe_b64encode(mac.digest()).decode('utf-8')
 
     @staticmethod
     def _encode_parameters(params: dict) -> str:
@@ -188,21 +197,28 @@ def process_webhook(merchant_params_b64: str) -> None:
     from apps.orders.models import Order
     from apps.orders.services import confirm_order_payment, cancel_order
 
+    # Use the proper instance, not __new__
     redsys = RedsysSignature.__new__(RedsysSignature)
     params = redsys._decode_parameters(merchant_params_b64)
 
     order_ref = params.get('Ds_Order', '')
     ds_response = params.get('Ds_Response', '9999')
 
+    print(f"[REDSYS] Order ref: {order_ref}, Ds_Response: {ds_response}")
+
     try:
         order = Order.objects.get(payment_provider_id=order_ref)
     except Order.DoesNotExist:
+        print(f"[REDSYS] Order not found for ref: {order_ref}")
         return
 
     if order.state in (Order.State.PAID, Order.State.CANCELLED):
+        print(f"[REDSYS] Order {order.id} already in final state: {order.state}")
         return
 
     if RedsysSignature.is_payment_authorised(ds_response):
+        print(f"[REDSYS] Payment authorised for order {order.id}")
         confirm_order_payment(order)
     else:
+        print(f"[REDSYS] Payment denied for order {order.id}")
         cancel_order(order)
