@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-2#u5tgx-(j&#og4#nwj(yx79dko&h+$ki^o9h!7jqyxspspq39
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver', '*', 'cafe-api.jcool-laboratory-00.click']
 
 
 # Application definition
